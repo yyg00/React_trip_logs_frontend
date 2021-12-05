@@ -65,7 +65,7 @@ test("test 6: clicking the image redirect into the logs page ", () => {
   render(<App />);
   userEvent.click(screen.getByText(/Home/i));
   userEvent.click(screen.getByAltText(/all/i));
-  expect(screen.getByText("No records found.")).toBeInTheDocument();
+  expect(screen.getByText("Loading...")).toBeInTheDocument();
 });
 
 test("test 7: all continents are rendered", async () => {
@@ -87,14 +87,7 @@ test("test 8: the accordion works", async () => {
   expect(screen.getAllByText(/Show/i).length).toBe(7);
 });
 
-test("test 9: click the continent name and redirect", async () => {
-  render(<App />);
-  userEvent.click(screen.getByText(/Home/i));
-  await waitFor(() => screen.getByTestId("Africa"));
-  userEvent.click(screen.getByTestId("Africa"));
-  expect(screen.getByText("No records found.")).toBeInTheDocument();
-});
-test("test 10: latest comment ranked first", async () => {
+test("test 9: latest comment ranked first", async () => {
   render(<Comment />);
   await waitFor(() => screen.getAllByTestId("comment_time"));
   let times = screen.getAllByTestId("comment_time");
@@ -102,7 +95,7 @@ test("test 10: latest comment ranked first", async () => {
     expect(times[0].textContent > times[1].textContent).toBeTruthy();
   }
 });
-test("test 11: 404 page", async () => {
+test("test 10: 404 page", async () => {
   const { getByTestId } = render(
     <MemoryRouter initialEntries={["/asdfghj"]}>
       <Route path="" exact>

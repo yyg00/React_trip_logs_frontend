@@ -3,12 +3,14 @@ import "./style.css";
 import "bootstrap/dist/css/bootstrap.css";
 import { Link } from "react-router-dom";
 import Accordion from "./Accordion";
+import Loading from "./Loading";
 export default class Logs extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       data: [],
       continents: [],
+      isLoading: true,
     };
   }
 
@@ -21,6 +23,7 @@ export default class Logs extends React.Component {
       .then((json) => {
         this.setState({
           data: json,
+          isLoading: false,
         });
       });
     fetch("https://itp404-final-project-backend.herokuapp.com/api/continents")
@@ -30,11 +33,14 @@ export default class Logs extends React.Component {
       .then((json) => {
         this.setState({
           continents: [...json.map((each) => each.name)],
+          isLoading: false,
         });
       });
   }
   render() {
-    return this.state.data.length !== 0 ? (
+    return this.state.isLoading ? (
+      <Loading />
+    ) : this.state.data.length !== 0 ? (
       <div className="container-fluid">
         <table className="table table-striped">
           <thead>

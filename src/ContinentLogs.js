@@ -3,12 +3,14 @@ import "./style.css";
 import "bootstrap/dist/css/bootstrap.css";
 import { Link } from "react-router-dom";
 import Accordion from "./Accordion";
+import Loading from "./Loading";
 export default class ContinentLogs extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       data: [],
       continents: [],
+      isLoading: true,
     };
   }
 
@@ -21,6 +23,7 @@ export default class ContinentLogs extends React.Component {
       .then((json) => {
         this.setState({
           continents: [...json.map((each) => each.name)],
+          isLoading: false,
         });
         document.title = `Logs for ${this.state.continents[cid]}`;
       });
@@ -33,13 +36,16 @@ export default class ContinentLogs extends React.Component {
           if (json[i].continentId === cid) {
             this.setState({
               data: [...this.state.data, json[i]],
+              isLoading: false,
             });
           }
         }
       });
   }
   render() {
-    return this.state.data.length === 0 ? (
+    return this.state.isLoading ? (
+      <Loading />
+    ) : this.state.data.length === 0 ? (
       <div>No records found.</div>
     ) : (
       <div className="container-fluid">
