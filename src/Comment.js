@@ -116,7 +116,7 @@ export default class Comment extends React.Component {
 
         {this.state.isModalOpen && (
           <Modal
-            title="Add a comment"
+            title="Add a comment to this log system"
             state={this.state}
             onClose={() => {
               document.getElementById("root").style.filter =
@@ -138,26 +138,19 @@ export default class Comment extends React.Component {
           />
         )}
         <div className="container mx-auto align-center">
-          <table className="table table-striped">
-            <thead>
-              <tr className="row">
-                <th className="col">Commenter's Name</th>
-                <th className="col">Comment</th>
-                <th className="col">Submitted Time</th>
-              </tr>
-            </thead>
-            <tbody>
-              {this.state.data.map((each) => (
-                <tr key={each.id} className="row">
-                  <td className="col">{each.name}</td>
-                  <td className="col">{each.comment}</td>
-                  <td className="col" data-testid="comment_time">
-                    {timeConverter(each.time)}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <hr />
+          {this.state.data.map((each) => (
+            <div key={each.id} className="container">
+              <div className="row comment_name">{each.name}</div>
+              <div className="row comment_time" data-testid="comment_time">
+                {timeConverter(each.time)}
+              </div>
+              <br />
+              <div className="row comment_content">{each.comment}</div>
+              <br />
+              <hr />
+            </div>
+          ))}
         </div>
       </div>
     );
